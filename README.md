@@ -203,7 +203,8 @@ Once installed, ask the agent to "bump the version" / "release" / "릴리스", o
 ```bash
 .claude/skills/headatever/scripts/headatever.sh patch        # everyday release
 .claude/skills/headatever/scripts/headatever.sh major        # breaking / milestone
-.claude/skills/headatever/scripts/headatever.sh patch --push # bump, then git push --follow-tags
+.claude/skills/headatever/scripts/headatever.sh patch --push    # bump, then git push --follow-tags
+.claude/skills/headatever/scripts/headatever.sh patch --release # bump, push, then create a GitHub release (needs gh)
 .claude/skills/headatever/scripts/headatever.sh show         # print current version
 ```
 

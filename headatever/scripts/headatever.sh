@@ -14,8 +14,17 @@ readonly VERSION_RE='^(0|[1-9][0-9]*)\.[0-9]{2}(0[1-9]|1[0-2])(0[1-9]|[12][0-9]|
 dry_run=0
 no_git=0
 push=0
+release=0
 
 die() { printf 'headatever: %s\n' "$1" >&2; exit 1; }
+
+# Ensure the GitHub CLI is available and authenticated before a release.
+require_gh() {
+  command -v gh >/dev/null 2>&1 \
+    || die "gh (GitHub CLI) not found; install from https://cli.github.com"
+  gh auth status >/dev/null 2>&1 \
+    || die "gh is not authenticated; run 'gh auth login'"
+}
 
 usage() {
   cat <<'EOF'
@@ -29,15 +38,18 @@ Commands:
   set <version>     Set an explicit head.yymmdd.patch version
   init [head]       Create VERSION (default head 0) if it does not exist
   push              Push the current release commit and tag (git push --follow-tags)
+  release           Push the current commit/tag, then create a GitHub release (needs gh)
 
 Options:
   --dry-run         Print what would change; write nothing, run no git
   --no-git          Write VERSION only; skip commit and tag
   --push            After commit + tag, run: git push --follow-tags
+  --release         After commit + tag, push and create a GitHub release (implies --push)
   -h, --help        Show this help
 
 By default a bump writes VERSION, commits it as "chore(release): v<version>",
 and creates an annotated tag v<version>. The date uses local time.
+The 'release' command and --release flag require the GitHub CLI (gh).
 EOF
 }
 
@@ -76,6 +88,7 @@ while (($#)); do
     --dry-run) dry_run=1 ;;
     --no-git)  no_git=1 ;;
     --push)    push=1 ;;
+    --release) release=1 ;;
     -h|--help) usage; exit 0 ;;
     --) shift; while (($#)); do args+=("$1"); shift; done; break ;;
     -*) die "unknown option: $1 (try --help)" ;;
@@ -109,6 +122,28 @@ case $cmd in
       || die "tag $tag does not exist locally; run a bump first"
     git push --follow-tags
     echo "pushed $tag"
+    exit 0
+    ;;
+  release)
+    (( no_git )) && die "'release' cannot be combined with --no-git"
+    old=$(read_current "$file")
+    tag="v$old"
+    if (( dry_run )); then
+      echo "[dry-run] release $tag"
+      echo "[dry-run] git push --follow-tags"
+      echo "[dry-run] gh release create $tag --generate-notes --title $tag"
+      exit 0
+    fi
+    git rev-parse --show-toplevel >/dev/null 2>&1 \
+      || die "not a git repository"
+    git rev-parse -q --verify "refs/tags/$tag" >/dev/null \
+      || die "tag $tag does not exist locally; run a bump first"
+    require_gh
+    gh release view "$tag" >/dev/null 2>&1 \
+      && die "GitHub release $tag already exists"
+    git push --follow-tags
+    gh release create "$tag" --generate-notes --title "$tag"
+    echo "released $tag"
     exit 0
     ;;
   init)
@@ -172,7 +207,8 @@ if (( dry_run )); then
     echo "[dry-run] git add -- $file"
     echo "[dry-run] git commit -m \"chore(release): $tag\" -- $file"
     echo "[dry-run] git tag -a $tag -m $tag"
-    (( push )) && echo "[dry-run] git push --follow-tags"
+    (( push || release )) && echo "[dry-run] git push --follow-tags"
+    (( release )) && echo "[dry-run] gh release create $tag --generate-notes --title $tag"
   fi
   exit 0
 fi
@@ -186,6 +222,7 @@ if (( ! no_git )); then
   if git rev-parse -q --verify "refs/tags/$tag" >/dev/null; then
     die "tag $tag already exists"
   fi
+  (( release )) && require_gh
 fi
 
 printf '%s\n' "$new" > "$file"
@@ -200,6 +237,13 @@ git commit -q -m "chore(release): $tag" -- "$file"
 git tag -a "$tag" -m "$tag"
 
 suffix=""
-(( push )) && { git push --follow-tags; suffix=", pushed"; }
+if (( push || release )); then
+  git push --follow-tags
+  suffix=", pushed"
+fi
+if (( release )); then
+  gh release create "$tag" --generate-notes --title "$tag"
+  suffix="$suffix, released"
+fi
 
 echo "${old:+$old -> }$new  (committed, tagged $tag$suffix)"

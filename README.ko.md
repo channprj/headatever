@@ -203,7 +203,8 @@ npx skills add channprj/headatever -g
 ```bash
 .claude/skills/headatever/scripts/headatever.sh patch        # 일상적인 릴리스
 .claude/skills/headatever/scripts/headatever.sh major        # 호환성 파괴 / 마일스톤
-.claude/skills/headatever/scripts/headatever.sh patch --push # 범프 후 git push --follow-tags
+.claude/skills/headatever/scripts/headatever.sh patch --push    # 범프 후 git push --follow-tags
+.claude/skills/headatever/scripts/headatever.sh patch --release # 범프 → 푸시 → GitHub 릴리스 생성 (gh 필요)
 .claude/skills/headatever/scripts/headatever.sh show         # 현재 버전 출력
 ```
 
