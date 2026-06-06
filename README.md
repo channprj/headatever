@@ -8,7 +8,7 @@
 
 **Headatever** is the day‑precision sibling of [HeadVer](https://github.com/line/headver). It keeps HeadVer's central promise — _only the head number is worth maintaining by hand_ — but swaps HeadVer's ISO **year‑week** field for a full **calendar date** (`yymmdd`).
 
-HeadVer decided that week precision was good enough. Headatever stamps the exact day instead — **whatever**, the day is cheaper to reason about, impossible to misread, and free of ISO week‑numbering edge cases. The name is a portmanteau of **Head**Ver + Cal**Ver** + "what**ever**".
+HeadVer decided that week precision was good enough. Headatever stamps the exact day instead — **whatever**, the day is cheaper to reason about, impossible to misread, and free of ISO week‑numbering edge cases. The name is a portmanteau of **Head** + **date** + **ver**(sion), run together into _Headatever_.
 
 ---
 

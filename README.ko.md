@@ -8,7 +8,7 @@
 
 **Headatever** 는 [HeadVer](https://github.com/line/headver) 의 "하루 단위(day‑precision)" 형제입니다. _직접 관리할 가치가 있는 숫자는 head 하나뿐_ 이라는 HeadVer 의 핵심 철학은 그대로 유지하되, HeadVer 의 ISO **연‑주차(year‑week)** 필드를 **달력 날짜**(`yymmdd`) 로 바꿨습니다.
 
-HeadVer 는 주차 단위면 충분하다고 보았습니다. Headatever 는 그 대신 정확한 날짜를 찍습니다 — **whatever**, 날짜가 더 다루기 쉽고, 잘못 읽을 일이 없으며, ISO 주차 번호의 자잘한 예외에서 자유롭기 때문입니다. 이름은 **Head**Ver + Cal**Ver** + "what**ever**" 를 합친 말입니다.
+HeadVer 는 주차 단위면 충분하다고 보았습니다. Headatever 는 그 대신 정확한 날짜를 찍습니다 — **whatever**, 날짜가 더 다루기 쉽고, 잘못 읽을 일이 없으며, ISO 주차 번호의 자잘한 예외에서 자유롭기 때문입니다. 이름은 **Head** + **date** + **ver**(sion) 을 자연스럽게 이어 붙인 합성어 _Headatever_ 입니다.
 
 ---
 
