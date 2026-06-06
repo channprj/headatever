@@ -32,12 +32,13 @@ vMAJOR.YYMMDD.PATCH_COUNT
 
 Field rules:
 
-- `MAJOR`: major release line, incremented manually when you want to signal a breaking or milestone release
+- `MAJOR`: major release line, a non-negative integer incremented manually to signal a breaking or milestone release; `0` denotes initial development (no leading zeros, but a lone `0` is allowed)
 - `YYMMDD`: 2-digit year suffix + 2-digit month + 2-digit day
 - `PATCH_COUNT`: zero-based daily release counter; starts at `0` for the first release of a given `YYMMDD` and increments by `1` for each additional release that day
 
 Examples:
 
+- `0.260424.0`
 - `1.260424.0`
 - `1.260424.9`
 - `2.261231.0`
@@ -46,7 +47,7 @@ Invalid examples:
 
 - `1.26042.0`
 - `1.261399.0`
-- `0.260424.0`
+- `01.260424.0`
 - `v1.260424.0` in `VERSION` file
 
 ## Operational rules
