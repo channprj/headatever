@@ -1,10 +1,12 @@
 # Headatever
 
+![banner](./assets/banner.png)
+
 > **`head.yymmdd.patch`** — a calendar‑stamped, SemVer‑compatible versioning scheme where only the **head** needs a human. The rest is just the date and a daily counter.
 
 [한국어 (Korean)](./README.ko.md)
 
-**Headatever** is the day‑precision sibling of [HeadVer](https://github.com/line/headver). It keeps HeadVer's central promise — *only the head number is worth maintaining by hand* — but swaps HeadVer's ISO **year‑week** field for a full **calendar date** (`yymmdd`).
+**Headatever** is the day‑precision sibling of [HeadVer](https://github.com/line/headver). It keeps HeadVer's central promise — _only the head number is worth maintaining by hand_ — but swaps HeadVer's ISO **year‑week** field for a full **calendar date** (`yymmdd`).
 
 HeadVer decided that week precision was good enough. Headatever stamps the exact day instead — **whatever**, the day is cheaper to reason about, impossible to misread, and free of ISO week‑numbering edge cases. The name is a portmanteau of **Head**Ver + Cal**Ver** + "what**ever**".
 
@@ -29,11 +31,11 @@ HeadVer decided that week precision was good enough. Headatever stamps the exact
    └─────────────────────── manually incremented release line (≥ 0)
 ```
 
-| Component  | Source     | Example  | Meaning                                            |
-| ---------- | ---------- | -------- | -------------------------------------------------- |
-| `head`     | **manual** | `1`      | The release line; bump for breaking/milestone work |
-| `yymmdd`   | automatic  | `260424` | The calendar date `2026-04-24`                      |
-| `patch`    | automatic  | `0`      | The 1st release of that day (zero‑based)            |
+| Component | Source     | Example  | Meaning                                            |
+| --------- | ---------- | -------- | -------------------------------------------------- |
+| `head`    | **manual** | `1`      | The release line; bump for breaking/milestone work |
+| `yymmdd`  | automatic  | `260424` | The calendar date `2026-04-24`                     |
+| `patch`   | automatic  | `0`      | The 1st release of that day (zero‑based)           |
 
 > **`1.260424.0`** → head `1`, released on **2026‑04‑24**, the `0`th (first) release that day.
 > Canonical version: `1.260424.0` · Git tag: `v1.260424.0`
@@ -94,11 +96,11 @@ The key words **MUST**, **MUST NOT**, **SHOULD**, and **MAY** follow [RFC 2119](
 - `VERSION` stores the version **without** the leading `v`.
 - Git release tags use **`v{VERSION}`**.
 
-| Artifact      | Value          |
-| ------------- | -------------- |
-| `VERSION`     | `1.260424.0`   |
-| Git tag       | `v1.260424.0`  |
-| CLI / display | `1.260424.0`   |
+| Artifact      | Value         |
+| ------------- | ------------- |
+| `VERSION`     | `1.260424.0`  |
+| Git tag       | `v1.260424.0` |
+| CLI / display | `1.260424.0`  |
 
 ---
 
@@ -132,23 +134,23 @@ A structural regular expression (ECMAScript flavor):
 
 **Valid**
 
-| Version       | Meaning                                            |
-| ------------- | -------------------------------------------------- |
-| `0.260424.0`  | head 0 — an initial‑development line                |
-| `1.260424.0`  | head 1, first release on 2026‑04‑24                 |
-| `1.260424.9`  | head 1, tenth release on the same day               |
-| `2.261231.0`  | head 2, first release on 2026‑12‑31                 |
-| `1.260424.0-rc.1` | release candidate (optional SemVer suffix)      |
+| Version           | Meaning                                    |
+| ----------------- | ------------------------------------------ |
+| `0.260424.0`      | head 0 — an initial‑development line       |
+| `1.260424.0`      | head 1, first release on 2026‑04‑24        |
+| `1.260424.9`      | head 1, tenth release on the same day      |
+| `2.261231.0`      | head 2, first release on 2026‑12‑31        |
+| `1.260424.0-rc.1` | release candidate (optional SemVer suffix) |
 
 **Invalid**
 
-| Version        | Why                                       |
-| -------------- | ----------------------------------------- |
-| `1.26042.0`    | date is not 6 digits                      |
-| `1.261399.0`   | month `13` / day `99` do not exist        |
-| `01.260424.0`  | `head` must not have leading zeros        |
-| `1.260424.00`  | `patch` must not have leading zeros       |
-| `v1.260424.0`  | the `VERSION` file stores no leading `v`  |
+| Version       | Why                                      |
+| ------------- | ---------------------------------------- |
+| `1.26042.0`   | date is not 6 digits                     |
+| `1.261399.0`  | month `13` / day `99` do not exist       |
+| `01.260424.0` | `head` must not have leading zeros       |
+| `1.260424.00` | `patch` must not have leading zeros      |
+| `v1.260424.0` | the `VERSION` file stores no leading `v` |
 
 ---
 
@@ -158,21 +160,21 @@ Three problems, three deliberate choices:
 
 1. **SemVer makes you argue.** Is this change "minor" or "patch"? The debate is endless and the answer rarely matters to anyone downstream. Headatever removes the question — the date and the daily counter are decided automatically. **Only `head` is a human decision**, reserved for the one signal that genuinely matters: "this release is different."
 
-2. **CalVer forgets the breaking‑change signal.** Pure calendar versions communicate *when*, but not *whether you should be careful upgrading*. Headatever keeps a SemVer‑style leading `head` precisely for that.
+2. **CalVer forgets the breaking‑change signal.** Pure calendar versions communicate _when_, but not _whether you should be careful upgrading_. Headatever keeps a SemVer‑style leading `head` precisely for that.
 
 3. **HeadVer rounds to the week.** HeadVer's `yyww` is compact, but ISO week numbering has rough edges — 53‑week years, locale‑dependent week starts, and a number that humans can't map back to a date at a glance. Headatever stamps the full day: unambiguous, human‑readable, and trivially sortable.
 
 In short, Headatever is **CalVer's date core + SemVer's head + a daily build counter**, arranged so the whole thing is still a valid Semantic Version.
 
-| Trait                         | SemVer            | CalVer              | HeadVer            | **Headatever**       |
-| ----------------------------- | ----------------- | ------------------- | ------------------ | -------------------- |
-| Format                        | `major.minor.patch` | varies (e.g. `YYYY.MM.DD`) | `head.yyww.build` | `head.yymmdd.patch` |
-| Fields a human maintains      | major, minor, patch | usually none      | head               | **head only**        |
-| Date precision                | none              | day / month / week  | ISO week           | **calendar day**     |
-| Auto‑generated fields         | none              | the date            | yearweek, build    | yymmdd, patch        |
-| Breaking‑change signal        | major             | —                   | head               | head                 |
-| Sorts as SemVer               | yes               | depends             | yes                | **yes**              |
-| "Is this minor or patch?" debate | yes            | no                  | no                 | **no**               |
+| Trait                            | SemVer              | CalVer                     | HeadVer           | **Headatever**      |
+| -------------------------------- | ------------------- | -------------------------- | ----------------- | ------------------- |
+| Format                           | `major.minor.patch` | varies (e.g. `YYYY.MM.DD`) | `head.yyww.build` | `head.yymmdd.patch` |
+| Fields a human maintains         | major, minor, patch | usually none               | head              | **head only**       |
+| Date precision                   | none                | day / month / week         | ISO week          | **calendar day**    |
+| Auto‑generated fields            | none                | the date                   | yearweek, build   | yymmdd, patch       |
+| Breaking‑change signal           | major               | —                          | head              | head                |
+| Sorts as SemVer                  | yes                 | depends                    | yes               | **yes**             |
+| "Is this minor or patch?" debate | yes                 | no                         | no                | **no**              |
 
 ---
 
@@ -212,7 +214,7 @@ Add `--dry-run` to any command to preview without writing. See [`headatever/SKIL
 ## FAQ
 
 **Why day precision instead of HeadVer's week?**
-A full date is unambiguous and human‑readable: you always know *exactly* when a build shipped, with none of ISO‑8601's week‑53 or locale‑week complications. HeadVer reasoned that the week was enough; Headatever just stamps the day — *whatever*, it's cheaper to reason about.
+A full date is unambiguous and human‑readable: you always know _exactly_ when a build shipped, with none of ISO‑8601's week‑53 or locale‑week complications. HeadVer reasoned that the week was enough; Headatever just stamps the day — _whatever_, it's cheaper to reason about.
 
 **What if I release more than once in a day?**
 Increment `patch`: `…​.0`, `…​.1`, `…​.2`, … for that `yymmdd`. It resets to `0` on the next day.
