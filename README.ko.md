@@ -176,6 +176,39 @@ Headatever 는 SemVer 의 세 자리 숫자 구조를 그대로 빌려옵니다.
 
 ---
 
+## Claude Code 스킬
+
+이 저장소에는 [Claude Code](https://www.anthropic.com/claude-code) 스킬 [`headatever/`](./headatever/SKILL.md) 가 함께 들어 있습니다. 이 스킬은 스펙에 맞는 버전 범프를 대신 수행합니다 — 다음 `head.yymmdd.patch` 를 계산하고, `VERSION` 파일을 쓰고, `chore(release): v<version>` 으로 커밋한 뒤, 주석 태그 `v<version>` 을 만듭니다.
+
+### 설치
+
+[`skills`](https://github.com/vercel-labs/skills) CLI 로 설치합니다 — 저장소를 클론할 필요가 없습니다:
+
+```bash
+# 프로젝트 범위 → ./.claude/skills/headatever
+npx skills add channprj/headatever
+
+# 전역 범위 → ~/.claude/skills/headatever
+npx skills add channprj/headatever -g
+```
+
+이 CLI 는 다른 에이전트(Cursor, Codex, opencode 등)와도 호환됩니다. `-a` 로 대상을 지정하세요(예: `npx skills add channprj/headatever -a claude-code`). 설치 목록 확인과 제거는 `npx skills list`, `npx skills remove headatever` 로 합니다.
+
+### 사용
+
+설치한 뒤에는 에이전트에게 "버전 올려줘" / "릴리스" / "release" 라고 요청하거나, 번들된 스크립트를 직접 실행하세요:
+
+```bash
+.claude/skills/headatever/scripts/headatever.sh patch        # 일상적인 릴리스
+.claude/skills/headatever/scripts/headatever.sh major        # 호환성 파괴 / 마일스톤
+.claude/skills/headatever/scripts/headatever.sh patch --push # 범프 후 git push --follow-tags
+.claude/skills/headatever/scripts/headatever.sh show         # 현재 버전 출력
+```
+
+어떤 명령이든 `--dry-run` 을 붙이면 실제로 쓰지 않고 미리 볼 수 있습니다. 전체 명령 레퍼런스는 [`headatever/SKILL.md`](./headatever/SKILL.md) 를 참고하세요.
+
+---
+
 ## FAQ
 
 **HeadVer 의 주 단위 대신 왜 날짜 단위인가요?**

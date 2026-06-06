@@ -176,6 +176,39 @@ In short, Headatever is **CalVer's date core + SemVer's head + a daily build cou
 
 ---
 
+## Claude Code skill
+
+This repo bundles a [Claude Code](https://www.anthropic.com/claude-code) skill — [`headatever/`](./headatever/SKILL.md) — that performs spec‑valid bumps for you: it computes the next `head.yymmdd.patch`, writes `VERSION`, commits it as `chore(release): v<version>`, and creates the annotated `v<version>` tag.
+
+### Install
+
+Install it with the [`skills`](https://github.com/vercel-labs/skills) CLI — no clone required:
+
+```bash
+# Project scope → ./.claude/skills/headatever
+npx skills add channprj/headatever
+
+# Global scope → ~/.claude/skills/headatever
+npx skills add channprj/headatever -g
+```
+
+The CLI also works with other agents (Cursor, Codex, opencode, …); target one with `-a`, e.g. `npx skills add channprj/headatever -a claude-code`. List and remove installed skills with `npx skills list` and `npx skills remove headatever`.
+
+### Use
+
+Once installed, ask the agent to "bump the version" / "release" / "릴리스", or run the bundled script directly:
+
+```bash
+.claude/skills/headatever/scripts/headatever.sh patch        # everyday release
+.claude/skills/headatever/scripts/headatever.sh major        # breaking / milestone
+.claude/skills/headatever/scripts/headatever.sh patch --push # bump, then git push --follow-tags
+.claude/skills/headatever/scripts/headatever.sh show         # print current version
+```
+
+Add `--dry-run` to any command to preview without writing. See [`headatever/SKILL.md`](./headatever/SKILL.md) for the full command reference.
+
+---
+
 ## FAQ
 
 **Why day precision instead of HeadVer's week?**
