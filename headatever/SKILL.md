@@ -1,0 +1,37 @@
+---
+name: headatever
+description: Use when bumping or releasing a Headatever version (head.yymmdd.patch) — touching the VERSION file, cutting a release, bumping major/head/patch/date, or on phrases like "release", "bump version", "버전 올려줘", "릴리스", "VERSION 파일". Runs a bundled shell script that validates, writes VERSION, commits, and tags in one step.
+---
+
+# Headatever version bump
+
+Bump the project version (`head.yymmdd.patch`) by running the bundled script.
+**Do not hand-edit `VERSION`** — the script validates the result, writes the file,
+commits it as `chore(release): v<version>`, and creates the annotated `v<version>` tag.
+
+## Usage
+
+Run (path is relative to this skill's directory):
+
+```bash
+scripts/headatever.sh <command> [options]
+```
+
+| Command | Use when | Effect |
+|---|---|---|
+| `show` | You only need the current version | read-only |
+| `patch` | Cutting another release | same day → patch+1; new day → date=today, patch=0 |
+| `major` | Breaking change or milestone | head+1, date=today, patch=0 |
+| `date` | Forcing a fresh release day | date=today, patch=0 (errors if already today) |
+| `set <version>` | Correcting to an explicit value | sets `head.yymmdd.patch` (validated) |
+| `init [head]` | A project has no `VERSION` yet | creates `VERSION` (default head `0`) |
+
+Options: `--dry-run` (preview, write nothing), `--no-git` (write VERSION only), `--push` (also `git push --follow-tags`).
+
+## Notes
+
+- **Pick the command by intent:** `patch` is the everyday release; reserve `major` for a human-signaled breaking/milestone release. `head` may be `0` (initial development).
+- Dates use **local time**. The script reads/writes `VERSION` at the **git root**.
+- It refuses to create an existing tag or to move the date backwards, so a bump always produces a unique, spec-valid version.
+- When unsure what a command will do, run it with `--dry-run` first.
+- Spec: `head.yymmdd.patch`, SemVer-compatible — see the repo `README.md`.
