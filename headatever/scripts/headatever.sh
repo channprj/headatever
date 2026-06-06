@@ -28,6 +28,7 @@ Commands:
   date              Start a new day: date=today, patch=0 (errors if already today)
   set <version>     Set an explicit head.yymmdd.patch version
   init [head]       Create VERSION (default head 0) if it does not exist
+  push              Push the current release commit and tag (git push --follow-tags)
 
 Options:
   --dry-run         Print what would change; write nothing, run no git
@@ -92,6 +93,23 @@ old=""
 case $cmd in
   show)
     read_current "$file"; echo; exit 0
+    ;;
+  push)
+    (( no_git )) && die "'push' cannot be combined with --no-git"
+    old=$(read_current "$file")
+    tag="v$old"
+    if (( dry_run )); then
+      echo "[dry-run] push $tag"
+      echo "[dry-run] git push --follow-tags"
+      exit 0
+    fi
+    git rev-parse --show-toplevel >/dev/null 2>&1 \
+      || die "not a git repository"
+    git rev-parse -q --verify "refs/tags/$tag" >/dev/null \
+      || die "tag $tag does not exist locally; run a bump first"
+    git push --follow-tags
+    echo "pushed $tag"
+    exit 0
     ;;
   init)
     [[ -f $file ]] && die "VERSION already exists at $file"
