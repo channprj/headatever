@@ -198,7 +198,7 @@ Start `head` at (or above) your current major version (or at `0` for greenfield,
 
 ---
 
-## References
+## References and Inspired by
 
 - [https://calver.org](https://calver.org)
 - [https://github.com/line/headver](https://github.com/line/headver)

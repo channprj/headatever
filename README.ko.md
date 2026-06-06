@@ -198,7 +198,7 @@ Headatever 는 SemVer 의 세 자리 숫자 구조를 그대로 빌려옵니다.
 
 ---
 
-## References
+## References and Inspired by
 
 - [https://calver.org](https://calver.org)
 - [https://github.com/line/headver](https://github.com/line/headver)
