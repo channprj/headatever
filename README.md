@@ -203,4 +203,4 @@ Start `head` at (or above) your current major version (or at `0` for greenfield,
 - [https://calver.org](https://calver.org)
 - [https://github.com/line/headver](https://github.com/line/headver)
 - [https://x.com/simnalamburt/status/2047318484137443342](https://x.com/simnalamburt/status/2047318484137443342)
-- [@violetstair](https://github.com/violetstair)
+- [https://github.com/violetstair](https://github.com/violetstair)

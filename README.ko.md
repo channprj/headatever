@@ -203,4 +203,4 @@ Headatever 는 SemVer 의 세 자리 숫자 구조를 그대로 빌려옵니다.
 - [https://calver.org](https://calver.org)
 - [https://github.com/line/headver](https://github.com/line/headver)
 - [https://x.com/simnalamburt/status/2047318484137443342](https://x.com/simnalamburt/status/2047318484137443342)
-- [@violetstair](https://github.com/violetstair)
+- [https://github.com/violetstair](https://github.com/violetstair)
