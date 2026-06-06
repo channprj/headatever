@@ -178,9 +178,9 @@ Headatever 는 SemVer 의 세 자리 숫자 구조를 그대로 빌려옵니다.
 
 ---
 
-## Claude Code 스킬
+## Skills for Human and Agents
 
-이 저장소에는 [Claude Code](https://www.anthropic.com/claude-code) 스킬 [`headatever/`](./headatever/SKILL.md) 가 함께 들어 있습니다. 이 스킬은 스펙에 맞는 버전 범프를 대신 수행합니다 — 다음 `head.yymmdd.patch` 를 계산하고, `VERSION` 파일을 쓰고, `chore(release): v<version>` 으로 커밋한 뒤, 주석 태그 `v<version>` 을 만듭니다.
+이 저장소에는 스킬 [`headatever/`](./headatever/SKILL.md) 가 함께 들어 있습니다. 어떤 코딩 에이전트(Claude Code, Cursor, Codex 등)든, 혹은 사람이 직접 실행할 수 있으며, 스펙에 맞는 버전 범프를 수행합니다 — 다음 `head.yymmdd.patch` 를 계산하고, `VERSION` 파일을 쓰고, `chore(release): v<version>` 으로 커밋한 뒤, 주석 태그 `v<version>` 을 만듭니다.
 
 ### 설치
 

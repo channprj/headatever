@@ -178,9 +178,9 @@ In short, Headatever is **CalVer's date core + SemVer's head + a daily build cou
 
 ---
 
-## Claude Code skill
+## Skills for Human and Agents
 
-This repo bundles a [Claude Code](https://www.anthropic.com/claude-code) skill — [`headatever/`](./headatever/SKILL.md) — that performs spec‑valid bumps for you: it computes the next `head.yymmdd.patch`, writes `VERSION`, commits it as `chore(release): v<version>`, and creates the annotated `v<version>` tag.
+This repo bundles a skill — [`headatever/`](./headatever/SKILL.md) — that any coding agent (Claude Code, Cursor, Codex, …) or you can run directly to perform spec‑valid bumps: it computes the next `head.yymmdd.patch`, writes `VERSION`, commits it as `chore(release): v<version>`, and creates the annotated `v<version>` tag.
 
 ### Install
 
